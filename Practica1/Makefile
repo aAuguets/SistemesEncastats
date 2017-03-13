@@ -12,7 +12,7 @@ GAprimer:  serial_device.c  control_TMR0.c control_TMR0.h adc.c adc.h tmr0.c tmr
 #	avr-gcc -std=c99 -Wall -Os -mmcu=atmega328p -fshort-enums -Wl,-u,vfprintf -lprintf_min -DF_CPU=16000000UL osc.c serial_device.c  control_TMR0.c -o osc
 
 # opcio 3 with float 3888 bytes
-	avr-gcc -std=c99 -Wall -Os -mmcu=atmega328p -fshort-enums -Wl,-u,vfprintf -lprintf_flt -lm -DF_CPU=16000000UL osc.c serial_device.c  control_TMR0.c adc.c tmr0.c -o GAprimer
+	avr-gcc -std=c99 -Wall -Os -mmcu=atmega328p -fshort-enums -Wl,-u,vfprintf -lprintf_flt -lm -DF_CPU=16000000UL GAprimer.c serial_device.c  control_TMR0.c adc.c tmr0.c -o GAprimer
 
 GAprimer.hex: GAprimer
 	avr-objcopy -Oihex GAprimer GAprimer.hex
