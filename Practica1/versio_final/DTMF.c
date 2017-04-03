@@ -18,8 +18,15 @@ static uint8_t resultats[16] = {'1','2','3','A','4','5','6','B','7','8','9','C',
 
 static volatile int n = 0; //comptador per saber quin calcul de goertzel s'ha de fer.
 static int32_t potencies[8];
+//maquina d'estats
+typedef enum {EsperoDada, EsperoSilenci } estats;
+static estats estat_senyal;
+static uint8_t detectat = 0;
+static uint8_t perPrintar = 0;
+//static volatile uint8_t segonDetectat = 0;
 
 static uint8_t detectaResultat(void);
+void deteccioSenyals_maquinaestats(void);
 
 static int uart_putchar(char c, FILE *stream);
 static FILE mystdout = FDEV_SETUP_STREAM(uart_putchar, NULL,_FDEV_SETUP_WRITE);
@@ -36,15 +43,9 @@ static void calcula_potencia(void){
   //bool senyalDetectat;
   for(int i=0; i<8; i++){
     potencies[i]=((int32_t)s_1[i]*s_1[i] + (int32_t)s_2[i]*s_2[i] - ((((int32_t)b[i]*s_1[i])>>8) * s_2[i]));
-    if(potencies[i]>LLINDAR){
-      //printf("%c\n", detectaResultat());}//Ok test passat.
-      //printf("p:%li-%d\n",potencies[i],i);
-      senyalDetectat = true;
-    }
-    if(senyalDetectat)
-      deteccioSenyals_maquinaestats(ALT);
-    else
-      deteccioSenyals_maquinaestats(BAIX);
+
+    //printf("%c\n", detectaResultat());//Ok. Nou test passat.
+    deteccioSenyals_maquinaestats();
   }
 }
 
@@ -52,34 +53,55 @@ uint8_t detectaResultat(void){
   //(fila*4)-(columna-4)=> posicio de la llista resultats.
   bool d_fila = false;
   bool d_columna = false;
+  int trobat = 0;
   uint8_t posicio = 0;
   for(int i=0; i<4; i++){
-    //files.
+    //files, frequencies baixes.
     if(potencies[i] > LLINDAR){
       posicio += i*4;
+      trobat ++;
       d_fila = true;}
   }
   for (int i=4; i<8; i++){
-    //columnes.
+    //columnes, frequencies altes.
     if(potencies[i] > LLINDAR){
       posicio += (i-4);
+      trobat++;
       d_columna = true;}
   }
-  if (d_fila && d_columna)
+  if ((d_fila && d_columna) && (trobat == 2))
+    //si s'han trobat mes de 2 frequencies -> False.
+    //si no s'ha trobat una frequencia baixa i una alta-> false.
     return resultats[posicio];
-  else
+  else if (trobat > 0)
+    //'?' -> Unknown.
     return '?';
+  else
+    // '-' -> silenci.
+    return '-';
 }
 
-void deteccioSenyals_maquinaestats(int estat){
-  switch (estat) {
-    case ALT:
-
-    case BAIX:
-    default:
+void deteccioSenyals_maquinaestats(void){
+  detectat = detectaResultat();
+  switch (estat_senyal) {
+    case EsperoDada:
+      if ((detectat != '-') && (detectat != '?')){
+        printf("%c ",detectat);
+        estat_senyal = EsperoSilenci;
+      }
+      else
+        estat_senyal = EsperoDada;
+      break;
+    case EsperoSilenci:
+      if (detectat == '-')
+        estat_senyal = EsperoDada;
+      else
+        estat_senyal = EsperoSilenci;
       break;
   }
 }
+
+
 void setup(){
   setup_ADC(5,5,16);//(adc_input,v_ref,adc_pre)
   //adc_input (0-5 (default=5),8 Tª, 14 1.1V, 15 GND
@@ -97,6 +119,7 @@ void setup(){
 int main(void){
   setup();
   stdout = &mystdout;
+  estat_senyal =  EsperoDada;
   while(1){
     if(n > 204){
     //cli();
