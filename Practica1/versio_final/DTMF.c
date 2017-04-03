@@ -37,16 +37,14 @@ static void calcula_potencia(void){
   for(int i=0; i<8; i++){
     potencies[i]=((int32_t)s_1[i]*s_1[i] + (int32_t)s_2[i]*s_2[i] - ((((int32_t)b[i]*s_1[i])>>8) * s_2[i]));
     if(potencies[i]>LLINDAR){
-      printf("%c\n", detectaResultat());
-
-    }
+      //printf("%c\n", detectaResultat());}//Ok test passat.
       //printf("p:%li-%d\n",potencies[i],i);
-      /*senyalDetectat = true;
+      senyalDetectat = true;
     }
     if(senyalDetectat)
       deteccioSenyals_maquinaestats(ALT);
     else
-      deteccioSenyals_maquinaestats(BAIX);*/
+      deteccioSenyals_maquinaestats(BAIX);
   }
 }
 
