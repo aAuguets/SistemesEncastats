@@ -22,7 +22,6 @@ static int32_t potencies[8];
 typedef enum {EsperoDada, EsperoSilenci } estats;
 static estats estat_senyal;
 static uint8_t detectat = 0;
-static uint8_t perPrintar = 0;
 //static volatile uint8_t segonDetectat = 0;
 
 static uint8_t detectaResultat(void);
@@ -91,6 +90,7 @@ void deteccioSenyals_maquinaestats(void){
       }
       else
         estat_senyal = EsperoDada;
+
       break;
     case EsperoSilenci:
       if (detectat == '-')
