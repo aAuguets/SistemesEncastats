@@ -5,13 +5,21 @@
 
 #include <avr/interrupt.h>
 #include <stdio.h> //pel serial
+#include <stdbool.h>
+
+#define LLINDAR 1000000
+#define BAIX 0
+#define ALT 1
 
 static int32_t s_1[8]; //s-1
 static int32_t s_2[8]; //s-2
 static int16_t b[8] = {436,419,400,380,298,258,202,143}; //calculats amb l'octave. octave_b.png
+static uint8_t resultats[16] = {'1','2','3','A','4','5','6','B','7','8','9','C','*','0','#','D'};
+
 static volatile int n = 0; //comptador per saber quin calcul de goertzel s'ha de fer.
 static int32_t potencies[8];
 
+static uint8_t detectaResultat(void);
 
 static int uart_putchar(char c, FILE *stream);
 static FILE mystdout = FDEV_SETUP_STREAM(uart_putchar, NULL,_FDEV_SETUP_WRITE);
@@ -25,14 +33,55 @@ static int uart_putchar(char c, FILE *stream){
 
 
 static void calcula_potencia(void){
+  //bool senyalDetectat;
   for(int i=0; i<8; i++){
     potencies[i]=((int32_t)s_1[i]*s_1[i] + (int32_t)s_2[i]*s_2[i] - ((((int32_t)b[i]*s_1[i])>>8) * s_2[i]));
-    if(potencies[i]>9000000){
-      printf("p:%li-%d\n",potencies[i],i);
+    if(potencies[i]>LLINDAR){
+      printf("%c\n", detectaResultat());
+
     }
+      //printf("p:%li-%d\n",potencies[i],i);
+      /*senyalDetectat = true;
+    }
+    if(senyalDetectat)
+      deteccioSenyals_maquinaestats(ALT);
+    else
+      deteccioSenyals_maquinaestats(BAIX);*/
   }
 }
 
+uint8_t detectaResultat(void){
+  //(fila*4)-(columna-4)=> posicio de la llista resultats.
+  bool d_fila = false;
+  bool d_columna = false;
+  uint8_t posicio = 0;
+  for(int i=0; i<4; i++){
+    //files.
+    if(potencies[i] > LLINDAR){
+      posicio += i*4;
+      d_fila = true;}
+  }
+  for (int i=4; i<8; i++){
+    //columnes.
+    if(potencies[i] > LLINDAR){
+      posicio += (i-4);
+      d_columna = true;}
+  }
+  if (d_fila && d_columna)
+    return resultats[posicio];
+  else
+    return '?';
+}
+
+void deteccioSenyals_maquinaestats(int estat){
+  switch (estat) {
+    case ALT:
+
+    case BAIX:
+    default:
+      break;
+  }
+}
 void setup(){
   setup_ADC(5,5,16);//(adc_input,v_ref,adc_pre)
   //adc_input (0-5 (default=5),8 Tª, 14 1.1V, 15 GND
