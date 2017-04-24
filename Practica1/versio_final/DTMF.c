@@ -49,7 +49,7 @@ static void calcula_potencia(void){
 }
 
 uint8_t detectaResultat(void){
-  //(fila*4)-(columna-4)=> posicio de la llista resultats.
+  //(fila*4)+(columna-4)=> posicio de la llista resultats.
   bool d_fila = false;
   bool d_columna = false;
   int trobat = 0;
@@ -68,10 +68,10 @@ uint8_t detectaResultat(void){
       trobat++;
       d_columna = true;}
   }
-  if ((d_fila && d_columna) && (trobat == 2))
+  if ((d_fila && d_columna) && (trobat == 2)){
     //si s'han trobat mes de 2 frequencies -> False.
     //si no s'ha trobat una frequencia baixa i una alta-> false.
-    return resultats[posicio];
+    return resultats[posicio];}
   else if (trobat > 0)
     //'?' -> Unknown.
     return '?';

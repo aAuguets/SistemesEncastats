@@ -1,8 +1,8 @@
 .PHONY : loadmain
 loadmain: DTMF.hex
-	avrdude -c arduino -p atmega328p -P /dev/ttyACM0 -U DTMF.hex
+	avrdude -c arduino -p atmega328p -P /dev/cu.usbmodem1421 -U DTMF.hex
 	rm -f *~ *.hex DTMF
-	picocom /dev/ttyACM0
+	picocom /dev/cu.usbmodem1421
 
 DTMF:  serial_device.c  control_TMR0.c control_TMR0.h adc.c adc.h tmr0.c tmr0.h DTMF.c
 # opcio 1 standard: 2368 bytes

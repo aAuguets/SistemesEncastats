@@ -1,6 +1,6 @@
 #ifndef _ADC_
 #define _ADC_
-
+#include <stdint.h>
 //ADMUX bits
 #define refs1 0b10000000
 #define refs0 0b01000000
