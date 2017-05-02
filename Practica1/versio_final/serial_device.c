@@ -12,11 +12,14 @@
  */
 void serial_init(void) {
   // set baud rate to 9600 bps. Ignore lower rates.
+  /*
   UBRR0H = BAUDRATE_H(9600);
   UBRR0L = BAUDRATE_L(9600);
-  // set normal baud rate 
-  UCSR0A = UINT8_C(0);
-  UCSR0C = 
+  // set normal baud rate
+  UCSR0A = UINT8_C(0);*/
+  UBRR0 = 16;
+  UCSR0A |= (1<<U2X0);
+  UCSR0C =
     (_BV(UCSZ01)   | _BV(UCSZ00)) &   // 8 bit frame
     ~_BV(UMSEL01) & ~_BV(UMSEL00) &   // asincronous mode
     ~_BV(UPM01)   & ~_BV(UPM00)   &   // no parity
@@ -28,7 +31,7 @@ void serial_init(void) {
 
 uint8_t serial_get(void) {
   // polling on RXC until data received
-  loop_until_bit_is_set(UCSR0A, RXC0);  	
+  loop_until_bit_is_set(UCSR0A, RXC0);
   return UDR0;
 }
 
@@ -45,4 +48,3 @@ void serial_put(uint8_t c) {
   // send new byte
   UDR0 = c;
 }
-
