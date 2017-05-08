@@ -1,0 +1,14 @@
+Analysis & Synthesis Status : Successful - Mon Apr 24 09:55:23 2017
+Quartus II 64-Bit Version : 15.0.1 Build 150 06/03/2015 SJ Web Edition
+Revision Name : DSP
+Top-level Entity Name : main
+Family : Cyclone IV E
+Total logic elements : 442
+    Total combinational functions : 371
+    Dedicated logic registers : 107
+Total registers : 107
+Total pins : 17
+Total virtual pins : 0
+Total memory bits : 0
+Embedded Multiplier 9-bit elements : 20
+Total PLLs : 1
