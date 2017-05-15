@@ -13,7 +13,7 @@ port (clk    : in  std_logic;
       clk_en : in  std_logic;
       x      : in  std_logic_vector(7  downto 0);
       X_dft  : out std_logic_vector(31 downto 0);
-		test	 : out std_logic --now debug, later state?
+		test	 : out std_logic; --now debug, later state?
 		out1_clk_en : out std_logic
      );
 end entity BP_v0;

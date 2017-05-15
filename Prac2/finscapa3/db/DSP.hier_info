@@ -1,0 +1,45 @@
+|Codificador
+clk => out2_clk_en~reg0.CLK
+clk => data_out[0]~reg0.CLK
+clk => data_out[1]~reg0.CLK
+clk => data_out[2]~reg0.CLK
+clk => data_out[3]~reg0.CLK
+clk => data_out[4]~reg0.CLK
+clk => data_test[0].CLK
+clk => data_test[1].CLK
+clk => data_test[2].CLK
+clk => data_test[3].CLK
+clk => data_test[4].CLK
+clk => data_test[5].CLK
+clk => data_test[6].CLK
+clk => data_test[7].CLK
+test1 => data_test[0].DATAIN
+test2 => data_test[1].DATAIN
+test3 => data_test[2].DATAIN
+test4 => data_test[3].DATAIN
+test5 => data_test[4].DATAIN
+test6 => data_test[5].DATAIN
+test7 => data_test[6].DATAIN
+test8 => data_test[7].DATAIN
+in2_clk_en => out2_clk_en~reg0.DATAIN
+in2_clk_en => data_out[0]~reg0.ENA
+in2_clk_en => data_out[1]~reg0.ENA
+in2_clk_en => data_out[2]~reg0.ENA
+in2_clk_en => data_out[3]~reg0.ENA
+in2_clk_en => data_out[4]~reg0.ENA
+in2_clk_en => data_test[0].ENA
+in2_clk_en => data_test[1].ENA
+in2_clk_en => data_test[2].ENA
+in2_clk_en => data_test[3].ENA
+in2_clk_en => data_test[4].ENA
+in2_clk_en => data_test[5].ENA
+in2_clk_en => data_test[6].ENA
+in2_clk_en => data_test[7].ENA
+out2_clk_en <= out2_clk_en~reg0.DB_MAX_OUTPUT_PORT_TYPE
+data_out[0] <= data_out[0]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+data_out[1] <= data_out[1]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+data_out[2] <= data_out[2]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+data_out[3] <= data_out[3]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+data_out[4] <= data_out[4]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+
+
