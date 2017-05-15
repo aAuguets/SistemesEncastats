@@ -1,0 +1,57 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+use ieee.math_real.all;
+
+entity(Codificador) is 
+port (test1: in std_logic;
+		test2: in std_logic;
+		test3: in std_logic;
+		test4: in std_logic;
+		test5: in std_logic;
+		test6: in std_logic;
+		test7: in std_logic;
+		test8: in std_logic;
+		data_out: out std_logic_vector(7 downto 0)
+	);
+end entity Codificador;
+
+architecture arch of Codificador is
+signal data_test : std_logic_vector(7 downto 0);
+
+begin
+	data_test[0]<=test1;
+	data_test[1]<=test2;
+	data_test[2]<=test3;
+	data_test[3]<=test4;
+	data_test[4]<=test5;
+	data_test[5]<=test6;
+	data_test[6]<=test7;
+	data_test[7]<=test8;
+
+	data_out <= "1" when data_test "10001000";
+	data_out <= "2" when data_test "10001000";
+	data_out <= "3" when data_test "10001000";
+	data_out <= "4" when data_test "10001000";
+	data_out <= "5" when data_test "10001000";
+	data_out <= "6" when data_test "10001000";
+	data_out <= "7" when data_test "10001000";
+	data_out <= "8" when data_test "10001000";
+	data_out <= "9" when data_test "10001000";
+	data_out <= "A" when data_test "10001000";
+	data_out <= "B" when data_test "10001000";
+	data_out <= "C" when data_test "10001000";
+	data_out <= "D" when data_test "10001000";
+	data_out <= "*" when data_test "10001000";
+	data_out <= "0" when data_test "10001000";
+	data_out <= "#" when data_test "10001000";
+	
+	
+	
+	
+	
+data_out <= data_test
+
+
+
+
